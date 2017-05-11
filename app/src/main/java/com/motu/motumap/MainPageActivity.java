@@ -34,6 +34,7 @@ public class MainPageActivity extends Activity implements AMap.OnMyLocationChang
 
     private View search_bg_lyt;
     private ImageView me_imageview;
+    private ImageView forbidden_iv;
     private TextView input_edittext;
 
 
@@ -55,6 +56,7 @@ public class MainPageActivity extends Activity implements AMap.OnMyLocationChang
     private void initView() {
         search_bg_lyt =  findViewById(R.id.search_bg_lyt);
         me_imageview = (ImageView) findViewById(R.id.me_imageview);
+        forbidden_iv = (ImageView) findViewById(R.id.forbidden_iv);
         input_edittext = (TextView) findViewById(R.id.input_edittext);
 
 
@@ -71,7 +73,9 @@ public class MainPageActivity extends Activity implements AMap.OnMyLocationChang
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(mContext, PersonalCenterActivity.class));
+                Intent intent = new Intent(mContext, PersonalCenterActivity.class);
+                intent.putExtra("CurrentCity","上海市");
+                startActivity(intent);
             }
         });
 
@@ -81,6 +85,13 @@ public class MainPageActivity extends Activity implements AMap.OnMyLocationChang
             public void onClick(View view) {
 
                 startActivity(new Intent(mContext, SearchActivity.class));
+            }
+        });
+
+        forbidden_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
@@ -107,7 +118,7 @@ public class MainPageActivity extends Activity implements AMap.OnMyLocationChang
         myLocationStyle = new MyLocationStyle();
         aMap.setMyLocationStyle(myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE));
 
-        aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
+        aMap.getUiSettings().setMyLocationButtonEnabled(false);// 设置默认定位按钮是否显示
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
 
     }

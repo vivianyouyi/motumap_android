@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="title">摩途</string>
     <string name="animate">Animate</string>
     <string name="basic_map">显示地图</string>
     <string name="basic_description">介绍如何创建一个基本地图</string>
@@ -22,7 +23,6 @@
     <string name="custom_info_contents">Custom info contents</string>
     <string name="custom_info_window">Custom info window</string>
     <string name="default_info_window">Default info window</string>
-    <string name="demo_title">AMaps3D Demos</string>
     <string name="down_arrow">\u2193</string>
     <string name="drag_melbourne">Drag Melbourne</string>
     <string name="events_demo">Events功能</string>

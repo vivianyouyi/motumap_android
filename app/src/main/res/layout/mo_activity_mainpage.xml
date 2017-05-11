@@ -1,21 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/location_errInfo_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|left"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:background="@color/red"
-        android:text="TextView"
-        android:textColor="@color/darkgrey"
-        android:visibility="gone" />
-
     <com.amap.api.maps.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
@@ -25,15 +12,12 @@
         android:id="@+id/search_bg_lyt"
         android:layout_width="match_parent"
         android:layout_height="58dp"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_toLeftOf="@+id/btn_search"
-        android:layout_toStartOf="@+id/btn_search"
         android:background="@color/white"
         android:gravity="center_vertical">
-
 
         <ImageView
             android:id="@+id/me_imageview"
@@ -71,4 +55,18 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-</FrameLayout>
+
+
+    <ImageView
+        android:id="@+id/forbidden_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_bg_lyt"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:clickable="true"
+        android:background="@mipmap/forbidden_icon" />
+
+
+</RelativeLayout>
