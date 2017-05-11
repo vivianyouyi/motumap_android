@@ -6,22 +6,22 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.amap.api.services.help.Tip;
 import com.motu.motumap.R;
 
 import java.util.List;
 
 public class SearchPoiAdapter extends BaseAdapter {
-    private List<Tip> mList;
+    private List<SearchPoiEntity> mList;
     private Context context;
 
-    public SearchPoiAdapter(List<Tip> mList, Context context) {
+    public SearchPoiAdapter(List<SearchPoiEntity> mList, Context context) {
         this.mList = mList;
         this.context = context;
     }
 
-    public void setList(List<Tip> mList) {
+    public void setList(List<SearchPoiEntity> mList) {
         this.mList = mList;
+        notifyDataSetChanged();
     }
 
 
@@ -60,7 +60,7 @@ public class SearchPoiAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        holder.tv_name.setText(mList.get(position).getName());
+        holder.tv_name.setText(mList.get(position).getAddrname());
         holder.tv_district.setText(mList.get(position).getDistrict());
 
         return view;

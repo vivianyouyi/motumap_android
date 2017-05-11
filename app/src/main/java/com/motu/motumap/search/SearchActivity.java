@@ -1,27 +1,29 @@
 package com.motu.motumap.search;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.amap.api.services.core.AMapException;
-import com.amap.api.services.core.PoiItem;
-import com.amap.api.services.core.SuggestionCity;
 import com.amap.api.services.help.Inputtips;
 import com.amap.api.services.help.InputtipsQuery;
 import com.amap.api.services.help.Tip;
-import com.amap.api.services.poisearch.PoiResult;
-import com.amap.api.services.poisearch.PoiSearch;
 import com.amap.map3d.demo.util.AMapUtil;
 import com.amap.map3d.demo.util.ToastUtil;
 import com.motu.motumap.R;
+import com.motu.motumap.common.Constant;
+import com.motu.motumap.utils.DeviceUtils;
+import com.motu.motumap.utils.SpUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,19 +33,18 @@ import java.util.List;
  * poisearch搜索
  */
 public class SearchActivity extends FragmentActivity implements TextWatcher, View.OnClickListener, Inputtips.InputtipsListener {
+
+    private Context mContext;
     private ImageView back_imageview;
     private ListView listView;
     private EditText searchText;// 输入搜索关键字
-    private String keyWord = "";// 要输入的poi搜索关键字
+    private TextView nodata_tv;
+    private View clean_his_lyt;
     private SearchPoiAdapter mAdapter;
-    private List<Tip> mList;
+    private List<SearchPoiEntity> mList;
 
     private ProgressDialog progDialog = null;// 搜索时进度条
     private String currentCity;// 要输入的城市名字或者城市区号
-    private PoiResult poiResult; // poi返回的结果
-    private int currentPage = 0;// 当前页面，从0开始计数
-    private PoiSearch.Query query;// Poi查询条件类
-    private PoiSearch poiSearch;// POI搜索
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,9 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         // setContentView(R.layout.poikeywordsearch_activity);
         setContentView(R.layout.mo_activity_search);
+        mContext = SearchActivity.this;
         initView();
+        getHistoryData();
     }
 
 
@@ -60,50 +63,27 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
      */
     private void initView() {
         currentCity = "上海市";
-        mList = new ArrayList<Tip>();
+        mList = new ArrayList<SearchPoiEntity>();
         mAdapter = new SearchPoiAdapter(mList, SearchActivity.this);
         searchText = (EditText) findViewById(R.id.keyword_edittext);
+        nodata_tv = (TextView) findViewById(R.id.nodata_tv);
+        clean_his_lyt = findViewById(R.id.clean_his_lyt);
         listView = (ListView) findViewById(R.id.history_lv);
         listView.setAdapter(mAdapter);
         back_imageview = (ImageView) findViewById(R.id.back_imageview);
         back_imageview.setOnClickListener(this);
+        clean_his_lyt.setOnClickListener(this);
         searchText.addTextChangedListener(this);// 添加文本输入框监听事件
-    }
-
-    /**
-     * 显示进度框
-     */
-    private void showProgressDialog() {
-        if (progDialog == null)
-            progDialog = new ProgressDialog(this);
-        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progDialog.setIndeterminate(false);
-        progDialog.setCancelable(false);
-        progDialog.setMessage("正在搜索:\n" + keyWord);
-        progDialog.show();
-    }
-
-    /**
-     * 隐藏进度框
-     */
-    private void dissmissProgressDialog() {
-        if (progDialog != null) {
-            progDialog.dismiss();
-        }
-    }
-
-    /**
-     * poi没有搜索到数据，返回一些推荐城市的信息
-     */
-    private void showSuggestCity(List<SuggestionCity> cities) {
-        String infomation = "推荐城市\n";
-        for (int i = 0; i < cities.size(); i++) {
-            infomation += "城市名称:" + cities.get(i).getCityName() + "城市区号:"
-                    + cities.get(i).getCityCode() + "城市编码:"
-                    + cities.get(i).getAdCode() + "\n";
-        }
-        ToastUtil.show(SearchActivity.this, infomation);
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DeviceUtils.dropKeyBoard(mContext, searchText);
+                if (mList != null && mList.size() > position) {
+                    String enAddr = mList.get(position).getAddrname() + "," + mList.get(position).getDistrict() + "," + mList.get(position).getLatitude() + "," + mList.get(position).getLongitude();
+                    saveHistorySearch(enAddr);
+                }
+            }
+        });
     }
 
     @Override
@@ -119,6 +99,7 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         String newText = s.toString().trim();
         System.out.println("liweiwei... newText = " + newText);
+        clean_his_lyt.setVisibility(View.GONE);
         if (!AMapUtil.IsEmptyOrNullString(newText) && newText.length() > 1) {
             InputtipsQuery inputquery = new InputtipsQuery(newText, currentCity);
             Inputtips inputTips = new Inputtips(SearchActivity.this, inputquery);
@@ -139,6 +120,9 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
             case R.id.back_imageview:
 
                 break;
+            case R.id.clean_his_lyt:
+                cleanHistoryData();
+                break;
             default:
                 break;
         }
@@ -150,16 +134,91 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
 
         System.out.println("liweiwei... onGetInputtips");
         if (rCode == AMapException.CODE_AMAP_SUCCESS) {// 正确返回
-            for (Tip tip : tipList) {
 
-                System.out.println("liweiwei... tip " +  tip.toString());
-                System.out.println("liweiwei... tip point" +  tip.getPoint().toString());
+            nodata_tv.setVisibility(View.GONE);
+            mList.clear();
+            for (Tip tip : tipList) {
+                if (tip.getPoint() != null && tip.getPoint().getLatitude() > 0.0 && tip.getPoint().getLongitude() > 0.0) {
+                    System.out.println("liweiwei... tip " + tip.toString());
+                    System.out.println("liweiwei... tip point" + tip.getPoint().toString());
+                    SearchPoiEntity entity = new SearchPoiEntity();
+                    entity.setAddrname(tip.getName());
+                    entity.setDistrict(tip.getDistrict());
+                    entity.setLatitude(tip.getPoint().getLatitude() + "");
+                    entity.setLongitude(tip.getPoint().getLongitude() + "");
+                    mList.add(entity);
+                }
             }
-            mAdapter.setList(tipList);
-            mAdapter.notifyDataSetChanged();
+            mAdapter.setList(mList);
         } else {
+            nodata_tv.setVisibility(View.VISIBLE);
             ToastUtil.showerror(this, rCode);
         }
 
+    }
+
+    /**
+     * 获取缓存的搜索历史数据
+     */
+    private void getHistoryData() {
+        String result = SpUtils.getInstance(mContext).getString(Constant.SpConstant.SEARCH_HISTORY, null);
+        if (result == null) {
+            nodata_tv.setVisibility(View.VISIBLE);
+            return;
+        }
+        String[] array = result.split(";");
+
+        SearchPoiEntity poi;
+        mList.clear();
+        for (int i = array.length - 1; i >= 0; i--) {
+
+            String[] items = array[i].split(",");
+            poi = new SearchPoiEntity();
+            poi.setAddrname(items[0]);
+            poi.setDistrict(items[1]);
+            poi.setLatitude(items[2]);
+            poi.setLongitude(items[3]);
+            mList.add(poi);
+        }
+
+        if (mList.size() > 10) {
+            String strs = "";
+            String str = "";
+            for (int i = 9; i >= 0; i--) {
+                str = mList.get(i).getAddrname() + "," + mList.get(i).getDistrict() + "," + mList.get(i).getLatitude() + "," + mList.get(i).getLongitude();
+                if (i == 0) {
+                    strs = strs + str;
+                } else {
+                    strs = strs + str + ";";
+                }
+            }
+            SpUtils.getInstance(mContext).putString(Constant.SpConstant.SEARCH_HISTORY, strs);
+        }
+
+        mAdapter.setList(mList);
+
+        nodata_tv.setVisibility(View.GONE);
+        clean_his_lyt.setVisibility(View.VISIBLE);
+    }
+
+
+    /**
+     * 保存搜索的数据
+     */
+    private void saveHistorySearch(String enAddr) {
+        String res = SpUtils.getInstance(mContext).getString(Constant.SpConstant.SEARCH_HISTORY, null);
+        if (res == null) {
+            res = enAddr;
+        } else {
+            if (!res.contains(enAddr)) {
+                res = res + ";" + enAddr;
+            }
+        }
+        SpUtils.getInstance(mContext).putString(Constant.SpConstant.SEARCH_HISTORY, res);
+    }
+
+
+    private void cleanHistoryData() {
+        SpUtils.getInstance(mContext).putString(Constant.SpConstant.SEARCH_HISTORY, null);
     }
 }

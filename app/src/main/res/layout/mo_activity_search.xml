@@ -38,10 +38,10 @@
             <EditText
                 android:id="@+id/keyword_edittext"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="8dp"
                 android:layout_height="wrap_content"
-                android:hint="请输入关键字"
+                android:layout_marginLeft="8dp"
                 android:background="@color/white"
+                android:hint="请输入关键字"
                 android:maxLength="20"
                 android:textSize="16.0sp" />
         </LinearLayout>
@@ -52,14 +52,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <TextView
+            android:id="@+id/nodata_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingBottom="100dp"
+            android:text="暂无搜索记录"
+            android:textSize="16.0sp"
+            android:visibility="gone" />
+
         <ListView
             android:id="@+id/history_lv"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:dividerHeight="0dp"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:dividerHeight="0dp" />
+
+        <RelativeLayout
+            android:id="@+id/clean_his_lyt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/history_lv"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:visibility="gone"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/clean_his_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:text="清除搜索记录"
+                android:textSize="16.0sp" />
+        </RelativeLayout>
+
 
     </RelativeLayout>
 </LinearLayout>
