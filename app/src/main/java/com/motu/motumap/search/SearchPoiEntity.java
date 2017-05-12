@@ -8,8 +8,9 @@ public class SearchPoiEntity {
 
     private String longitude;
     private String latitude;
-    private String addrname;
+    private String name;
     private String district;
+    //private String address;
 
     public String getLongitude() {
         return longitude;
@@ -27,12 +28,12 @@ public class SearchPoiEntity {
         this.latitude = latitude;
     }
 
-    public String getAddrname() {
-        return addrname;
+    public String getName() {
+        return name;
     }
 
-    public void setAddrname(String addrname) {
-        this.addrname = addrname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDistrict() {

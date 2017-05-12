@@ -10,7 +10,30 @@
 
     <drawable name="transparent">#00000000</drawable>
     <color name="transparent">#00000000</color>
-    
+
+
+    <!-- 字体颜色 -->
+    <color name="txt_cor1">#2c2c2c</color>
+    <color name="txt_cor2">#5c5c5c</color>
+    <color name="txt_cor3">#757575</color>
+    <color name="txt_cor4">#b5b5b5</color>
+    <color name="txt_cor5">#dadada</color>
+    <color name="txt_cor6">#f5f2f2</color>
+    <!-- 背景色 -->
+    <color name="bg_cor1">#efefef</color>
+    <!-- 分割线 -->
+    <color name="bg_cor2">#f1f1f1</color>
+    <!-- 列表选中 -->
+    <color name="bg_cor3">#e7e7e7</color>
+
+    <color name="bg_cor4">#00aff3</color>
+    <color name="bg_cor5">#009dd7</color>
+    <color name="bg_cor6">#dc2f4a</color>
+
+    <!-- ui规范 -->
+    <color name="cor1">#ffffff</color>
+    <color name="cor2">#909496</color>
+    <color name="cor3">#4d4f50</color>
 
     <color name="header_toast_bg">#ccebfc</color>
     <color name="header_toast">#024ca1</color>
@@ -30,4 +53,5 @@
     <color name="color666">#661B85FF</color>
     <color name="color_1B85FF">#1B85FF</color>
 
+    <color name="colorPrimary">#FF000000</color>
 </resources>

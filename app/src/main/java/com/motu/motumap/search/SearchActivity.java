@@ -2,6 +2,7 @@ package com.motu.motumap.search;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
@@ -22,6 +23,7 @@ import com.amap.map3d.demo.util.AMapUtil;
 import com.amap.map3d.demo.util.ToastUtil;
 import com.motu.motumap.R;
 import com.motu.motumap.common.Constant;
+import com.motu.motumap.me.PersonalCenterActivity;
 import com.motu.motumap.utils.DeviceUtils;
 import com.motu.motumap.utils.SpUtils;
 
@@ -42,6 +44,7 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
     private View clean_his_lyt;
     private SearchPoiAdapter mAdapter;
     private List<SearchPoiEntity> mList;
+    private List<Tip> mTipList;
 
     private ProgressDialog progDialog = null;// 搜索时进度条
     private String currentCity;// 要输入的城市名字或者城市区号
@@ -79,8 +82,13 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DeviceUtils.dropKeyBoard(mContext, searchText);
                 if (mList != null && mList.size() > position) {
-                    String enAddr = mList.get(position).getAddrname() + "," + mList.get(position).getDistrict() + "," + mList.get(position).getLatitude() + "," + mList.get(position).getLongitude();
+                    String enAddr = mList.get(position).getName() + "," + mList.get(position).getDistrict() + ","
+                            + mList.get(position).getLatitude() + "," + mList.get(position).getLongitude();
                     saveHistorySearch(enAddr);
+
+                    Intent intent = new Intent(mContext, SearchResultActivity.class);
+                    intent.putExtra("destination", mTipList.get(position));
+                    startActivity(intent);
                 }
             }
         });
@@ -119,6 +127,7 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
              */
             case R.id.back_imageview:
 
+                finish();
                 break;
             case R.id.clean_his_lyt:
                 cleanHistoryData();
@@ -132,21 +141,23 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
     @Override
     public void onGetInputtips(List<Tip> tipList, int rCode) {
 
-        System.out.println("liweiwei... onGetInputtips");
         if (rCode == AMapException.CODE_AMAP_SUCCESS) {// 正确返回
 
             nodata_tv.setVisibility(View.GONE);
             mList.clear();
+            mTipList = new ArrayList<>();
+            mTipList.clear();
             for (Tip tip : tipList) {
                 if (tip.getPoint() != null && tip.getPoint().getLatitude() > 0.0 && tip.getPoint().getLongitude() > 0.0) {
                     System.out.println("liweiwei... tip " + tip.toString());
                     System.out.println("liweiwei... tip point" + tip.getPoint().toString());
                     SearchPoiEntity entity = new SearchPoiEntity();
-                    entity.setAddrname(tip.getName());
+                    entity.setName(tip.getName());
                     entity.setDistrict(tip.getDistrict());
                     entity.setLatitude(tip.getPoint().getLatitude() + "");
                     entity.setLongitude(tip.getPoint().getLongitude() + "");
                     mList.add(entity);
+                    mTipList.add(tip);
                 }
             }
             mAdapter.setList(mList);
@@ -168,13 +179,14 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
         }
         String[] array = result.split(";");
 
+        System.out.println("liweiwei... result = " + result);
         SearchPoiEntity poi;
         mList.clear();
         for (int i = array.length - 1; i >= 0; i--) {
 
             String[] items = array[i].split(",");
             poi = new SearchPoiEntity();
-            poi.setAddrname(items[0]);
+            poi.setName(items[0]);
             poi.setDistrict(items[1]);
             poi.setLatitude(items[2]);
             poi.setLongitude(items[3]);
@@ -185,7 +197,7 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
             String strs = "";
             String str = "";
             for (int i = 9; i >= 0; i--) {
-                str = mList.get(i).getAddrname() + "," + mList.get(i).getDistrict() + "," + mList.get(i).getLatitude() + "," + mList.get(i).getLongitude();
+                str = mList.get(i).getName() + "," + mList.get(i).getDistrict()  + "," + mList.get(i).getLatitude() + "," + mList.get(i).getLongitude();
                 if (i == 0) {
                     strs = strs + str;
                 } else {

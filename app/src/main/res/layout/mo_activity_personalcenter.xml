@@ -1,6 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_cor1"
+    android:orientation="vertical">
 
-</LinearLayout>
+    <include layout="@layout/mo_toolbar" />
+
+    <ScrollView
+        android:id="@+id/scollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:divider="@color/gray_lite"
+            android:dividerPadding="12dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/my_plate_rly"
+                style="@style/option_item_rl"
+                android:background="@drawable/selector_item_list">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="车牌类型"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+
+                <TextView
+                    android:id="@+id/myplate_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/arrow_iv"
+                    android:text="沪A123546黄"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:id="@+id/arrow_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@mipmap/arrow_r"
+                    android:contentDescription="@null" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_cor2"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp" />
+
+            <RelativeLayout
+                android:id="@+id/all_restriction_rly"
+                style="@style/option_item_rl"
+                android:background="@drawable/selector_item_list">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="全国限行区"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@mipmap/arrow_r"
+                    android:contentDescription="@null" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/no_highway_rly"
+                style="@style/option_item_rl"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/selector_item_list">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="不走高速"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@mipmap/arrow_r"
+                    android:contentDescription="@null" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_cor2"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp" />
+
+            <RelativeLayout
+                android:id="@+id/no_elevated_rly"
+                style="@style/option_item_rl"
+                android:background="@drawable/selector_item_list">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="不走高架"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@mipmap/arrow_r"
+                    android:contentDescription="@null" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/policy_rly"
+                style="@style/option_item_rl"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/selector_item_list">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="限行政策"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@mipmap/arrow_r"
+                    android:contentDescription="@null" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_cor2"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp" />
+
+            <RelativeLayout
+                android:id="@+id/about_us_rly"
+                style="@style/option_item_rl"
+                android:background="@drawable/selector_item_list">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="关于我们"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@mipmap/arrow_r"
+                    android:contentDescription="@null" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_cor2"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp" />
+
+            <RelativeLayout
+                android:id="@+id/user_agency_rly"
+                style="@style/option_item_rl"
+                android:background="@drawable/selector_item_list">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用户协议"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@mipmap/arrow_r"
+                    android:contentDescription="@null" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_cor2"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp" />
+
+            <RelativeLayout
+                android:id="@+id/score_rly"
+                style="@style/option_item_rl"
+                android:background="@drawable/selector_item_list">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="给我们打分"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@mipmap/arrow_r"
+                    android:contentDescription="@null" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+</RelativeLayout>

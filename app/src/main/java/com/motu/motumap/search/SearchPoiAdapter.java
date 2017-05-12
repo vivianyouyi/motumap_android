@@ -60,7 +60,7 @@ public class SearchPoiAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        holder.tv_name.setText(mList.get(position).getAddrname());
+        holder.tv_name.setText(mList.get(position).getName());
         holder.tv_district.setText(mList.get(position).getDistrict());
 
         return view;

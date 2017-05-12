@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/title_bg_lyt"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/button_back"
+            android:clickable="true" />
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:background="@color/gray_lite" />
+
+
+        <TextView
+            android:id="@+id/destination_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="4dp"
+            android:background="@color/transparent"
+            android:clickable="true"
+            android:text="查找地点，避开限行区域"
+            android:textColor="@color/txt_cor1"
+            android:textSize="@dimen/font_30" />
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/forbidden_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/title_bg_lyt"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/forbidden_icon"
+        android:clickable="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_nomal_navi">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/icon_loc" />
+
+        <LinearLayout
+            android:id="@+id/lyt_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/iv_icon"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingTop="6dp">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tv_district"
+                android:layout_marginRight="10dp"
+                android:ellipsize="middle"
+                android:lines="1"
+                android:text="陆家嘴"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_30" />
+
+            <TextView
+                android:id="@+id/tv_district"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="20dip"
+                android:layout_marginTop="5dip"
+                android:lines="1"
+                android:maxLength="15"
+                android:text="浦东新区浦东新区浦东新区浦东新区"
+                android:textColor="@color/gray_lite"
+                android:textSize="@dimen/font_26" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="20dip"
+                android:layout_marginTop="5dip"
+                android:lines="1"
+                android:maxLength="15"
+                android:text="浦东新区"
+                android:textColor="@color/gray_lite"
+                android:textSize="@dimen/font_26" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/destination_rly"
+            android:layout_width="wrap_content"
+            android:layout_height="70dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/iv_arraw"
+                android:layout_width="22dp"
+                android:layout_height="18dp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/distination_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_arraw"
+                android:layout_marginTop="5dip"
+                android:text="到这里"
+                android:textColor="@color/gray_lite"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/button_nomal_navi"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_common_select_black"
+        android:text="到这里"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_30" />
+
+</RelativeLayout>
