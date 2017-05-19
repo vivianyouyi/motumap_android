@@ -4,18 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
@@ -24,10 +22,10 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.animation.Animation;
 import com.amap.api.maps.model.animation.ScaleAnimation;
-import com.amap.api.maps.model.animation.TranslateAnimation;
 import com.amap.api.services.help.Tip;
 import com.motu.motumap.R;
 import com.motu.motumap.me.PersonalCenterActivity;
+import com.motu.motumap.route.AvoidRouteActivity;
 import com.motu.motumap.view.ShadowProperty;
 import com.motu.motumap.view.ShadowViewDrawable;
 
@@ -40,13 +38,16 @@ public class SearchResultActivity extends Activity implements View.OnClickListen
     private ImageView back_iv;
     private ImageView forbidden_iv;
     private TextView destination_tv;
+    private TextView tv_name;
+    private TextView tv_district;
+    private TextView tv_address;
+    private Button button_nomal_navi;
 
-    private MarkerOptions markerOption;
+
     private AMap aMap;
     private MapView mapView;
     private LatLng latlng;
     private Tip tip;
-    Marker screenMarker = null;
     Marker growMarker = null;
 
     @Override
@@ -65,8 +66,6 @@ public class SearchResultActivity extends Activity implements View.OnClickListen
         initData();
         initView();
         initMap();
-
-
         startGrowAnimation();
     }
 
@@ -85,7 +84,15 @@ public class SearchResultActivity extends Activity implements View.OnClickListen
         back_iv = (ImageView) findViewById(R.id.back_iv);
         forbidden_iv = (ImageView) findViewById(R.id.forbidden_iv);
         destination_tv = (TextView) findViewById(R.id.destination_tv);
+        tv_name = (TextView) findViewById(R.id.tv_name);
+        tv_district = (TextView) findViewById(R.id.tv_district);
+        tv_address = (TextView) findViewById(R.id.tv_address);
+        button_nomal_navi = (Button) findViewById(R.id.button_nomal_navi);
 
+        destination_tv.setText(tip.getName());
+        tv_name.setText(tip.getName());
+        tv_district.setText(tip.getDistrict());
+        tv_address.setText(tip.getAddress());
 
         ShadowProperty sp = new ShadowProperty()
                 .setShadowColor(0x77000000)
@@ -110,6 +117,15 @@ public class SearchResultActivity extends Activity implements View.OnClickListen
 
             }
         });
+        button_nomal_navi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(mContext, AvoidRouteActivity.class);
+                intent.putExtra("CurrentCity","上海市");
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -120,24 +136,15 @@ public class SearchResultActivity extends Activity implements View.OnClickListen
         if (aMap == null) {
             aMap = mapView.getMap();
         }
+
+        aMap.moveCamera(
+                CameraUpdateFactory.newCameraPosition(new CameraPosition(
+                        latlng, 18, 30, 0)));
+
         aMap.setOnMapLoadedListener(new AMap.OnMapLoadedListener() {
             @Override
             public void onMapLoaded() {
-                addMarkersToMap();
-            }
-        });
-
-        // 设置可视范围变化时的回调的接口方法
-        aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(CameraPosition position) {
-
-            }
-
-            @Override
-            public void onCameraChangeFinish(CameraPosition postion) {
-                //屏幕中心的Marker跳动
-                startJumpAnimation();
+                addGrowMarker();
             }
         });
     }
@@ -177,37 +184,12 @@ public class SearchResultActivity extends Activity implements View.OnClickListen
         super.onDestroy();
         mapView.onDestroy();
     }
-
-    /**
-     * 在地图上添加marker
-     */
-    private void addMarkersToMap() {
-
-        addMarkerInScreenCenter();
-
-        addGrowMarker();
-    }
-
-
-    /**
-     * 在屏幕中心添加一个Marker
-     */
-    private void addMarkerInScreenCenter() {
-        LatLng latLng = aMap.getCameraPosition().target;
-        Point screenPosition = aMap.getProjection().toScreenLocation(latLng);
-        screenMarker = aMap.addMarker(new MarkerOptions()
-                .anchor(0.5f, 0.5f)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.purple_pin)));
-        //设置Marker在屏幕上,不跟随地图移动
-        screenMarker.setPositionByPixels(screenPosition.x, screenPosition.y);
-
-    }
-
     /**
      * 添加一个从地上生长的Marker
      */
     public void addGrowMarker() {
         if (growMarker == null) {
+
             MarkerOptions markerOptions = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.location))
                     .position(latlng);
             growMarker = aMap.addMarker(markerOptions);
@@ -231,44 +213,6 @@ public class SearchResultActivity extends Activity implements View.OnClickListen
             growMarker.startAnimation();
         }
     }
-
-    /**
-     * 屏幕中心marker 跳动
-     */
-    public void startJumpAnimation() {
-
-        if (screenMarker != null) {
-            //根据屏幕距离计算需要移动的目标点
-            final LatLng latLng = screenMarker.getPosition();
-            Point point = aMap.getProjection().toScreenLocation(latLng);
-            point.y -= dip2px(this, 125);
-            LatLng target = aMap.getProjection()
-                    .fromScreenLocation(point);
-            //使用TranslateAnimation,填写一个需要移动的目标点
-            Animation animation = new TranslateAnimation(target);
-            animation.setInterpolator(new Interpolator() {
-                @Override
-                public float getInterpolation(float input) {
-                    // 模拟重加速度的interpolator
-                    if (input <= 0.5) {
-                        return (float) (0.5f - 2 * (0.5 - input) * (0.5 - input));
-                    } else {
-                        return (float) (0.5f - Math.sqrt((input - 0.5f) * (1.5f - input)));
-                    }
-                }
-            });
-            //整个移动所需要的时间
-            animation.setDuration(600);
-            //设置动画
-            screenMarker.setAnimation(animation);
-            //开始动画
-            screenMarker.startAnimation();
-
-        } else {
-            Log.e("ama", "screenMarker is null");
-        }
-    }
-
     //dip和px转换
     private static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -278,18 +222,6 @@ public class SearchResultActivity extends Activity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            /**
-             * 从地上生长的Marker
-             */
-            case R.id.growMarker:
-                startGrowAnimation();
-                break;
-            /**
-             * marker 跳动动画
-             */
-            case R.id.jumpMarker:
-                startJumpAnimation();
-                break;
             default:
                 break;
         }

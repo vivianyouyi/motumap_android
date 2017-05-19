@@ -57,7 +57,7 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
         setContentView(R.layout.mo_activity_search);
         mContext = SearchActivity.this;
         initView();
-        getHistoryData();
+        //getHistoryData();
     }
 
 
@@ -84,7 +84,7 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
                 if (mList != null && mList.size() > position) {
                     String enAddr = mList.get(position).getName() + "," + mList.get(position).getDistrict() + ","
                             + mList.get(position).getLatitude() + "," + mList.get(position).getLongitude();
-                    saveHistorySearch(enAddr);
+                   // saveHistorySearch(enAddr);
 
                     Intent intent = new Intent(mContext, SearchResultActivity.class);
                     intent.putExtra("destination", mTipList.get(position));

@@ -42,7 +42,7 @@
             android:background="@color/transparent"
             android:clickable="true"
             android:text="查找地点，避开限行区域"
-            android:textColor="@color/txt_cor1"
+            android:textColor="@color/txt_cor2"
             android:textSize="@dimen/font_30" />
     </LinearLayout>
 
@@ -61,14 +61,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button_nomal_navi">
+        android:layout_above="@+id/button_nomal_navi"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/iv_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:src="@mipmap/icon_loc" />
 
@@ -76,7 +77,7 @@
             android:id="@+id/lyt_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_icon"
             android:gravity="center_vertical"
             android:orientation="vertical"
@@ -104,7 +105,7 @@
                 android:lines="1"
                 android:maxLength="15"
                 android:text="浦东新区浦东新区浦东新区浦东新区"
-                android:textColor="@color/gray_lite"
+                android:textColor="@color/txt_cor3"
                 android:textSize="@dimen/font_26" />
 
             <TextView
@@ -117,7 +118,7 @@
                 android:lines="1"
                 android:maxLength="15"
                 android:text="浦东新区"
-                android:textColor="@color/gray_lite"
+                android:textColor="@color/txt_cor3"
                 android:textSize="@dimen/font_26" />
         </LinearLayout>
 
@@ -130,7 +131,7 @@
             android:layout_marginRight="20dp"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_arraw"
@@ -145,7 +146,7 @@
                 android:layout_below="@+id/iv_arraw"
                 android:layout_marginTop="5dip"
                 android:text="到这里"
-                android:textColor="@color/gray_lite"
+                android:textColor="@color/txt_cor3"
                 android:textSize="13sp" />
         </RelativeLayout>
 
