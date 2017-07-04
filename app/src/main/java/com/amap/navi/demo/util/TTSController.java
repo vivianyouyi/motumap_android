@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.amap.api.navi.MyNaviListener;
 import com.amap.api.navi.model.AMapLaneInfo;
+import com.amap.api.navi.model.AMapModelCross;
 import com.amap.api.navi.model.AMapNaviCameraInfo;
 import com.amap.api.navi.model.AMapNaviCross;
 import com.amap.api.navi.model.AMapNaviInfo;
@@ -326,6 +327,16 @@ public class TTSController implements MyNaviListener {
 
     @Override
     public void carProjectionChange(AmapCarLocation mCarProjectionChange) {
+
+    }
+
+    @Override
+    public void showModeCross(AMapModelCross aMapModelCross) {
+
+    }
+
+    @Override
+    public void hideModeCross() {
 
     }
 

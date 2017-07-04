@@ -12,4 +12,8 @@ public class GlobalConstants {
     public static final String STOP_AREA = BASEURL + "/Stop/GetStopArea?";
     public static final String AVOID_POLYGONS = BASEURL + "/DodgeArea/Search?";
 
+
+    public static String SP_SEARCH_HISTORY = "search_history";
+    public static String SP_IS_FIRSTTIME = "is_firsttime";
+
 }

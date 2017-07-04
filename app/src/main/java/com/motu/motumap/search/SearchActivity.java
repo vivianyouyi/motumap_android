@@ -23,6 +23,7 @@ import com.amap.map3d.demo.util.AMapUtil;
 import com.amap.map3d.demo.util.ToastUtil;
 import com.motu.motumap.R;
 import com.motu.motumap.common.Constant;
+import com.motu.motumap.common.GlobalConstants;
 import com.motu.motumap.me.PersonalCenterActivity;
 import com.motu.motumap.utils.DeviceUtils;
 import com.motu.motumap.utils.SpUtils;
@@ -84,7 +85,7 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
                 if (mList != null && mList.size() > position) {
                     String enAddr = mList.get(position).getName() + "," + mList.get(position).getDistrict() + ","
                             + mList.get(position).getLatitude() + "," + mList.get(position).getLongitude();
-                   // saveHistorySearch(enAddr);
+                    // saveHistorySearch(enAddr);
 
                     Intent intent = new Intent(mContext, SearchResultActivity.class);
                     intent.putExtra("destination", mTipList.get(position));
@@ -172,7 +173,7 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
      * 获取缓存的搜索历史数据
      */
     private void getHistoryData() {
-        String result = SpUtils.getInstance(mContext).getString(Constant.SpConstant.SEARCH_HISTORY, null);
+        String result = SpUtils.getInstance(mContext).getString(GlobalConstants.SP_SEARCH_HISTORY, null);
         if (result == null) {
             nodata_tv.setVisibility(View.VISIBLE);
             return;
@@ -197,14 +198,14 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
             String strs = "";
             String str = "";
             for (int i = 9; i >= 0; i--) {
-                str = mList.get(i).getName() + "," + mList.get(i).getDistrict()  + "," + mList.get(i).getLatitude() + "," + mList.get(i).getLongitude();
+                str = mList.get(i).getName() + "," + mList.get(i).getDistrict() + "," + mList.get(i).getLatitude() + "," + mList.get(i).getLongitude();
                 if (i == 0) {
                     strs = strs + str;
                 } else {
                     strs = strs + str + ";";
                 }
             }
-            SpUtils.getInstance(mContext).putString(Constant.SpConstant.SEARCH_HISTORY, strs);
+            SpUtils.getInstance(mContext).putString(GlobalConstants.SP_SEARCH_HISTORY, strs);
         }
 
         mAdapter.setList(mList);
@@ -218,7 +219,7 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
      * 保存搜索的数据
      */
     private void saveHistorySearch(String enAddr) {
-        String res = SpUtils.getInstance(mContext).getString(Constant.SpConstant.SEARCH_HISTORY, null);
+        String res = SpUtils.getInstance(mContext).getString(GlobalConstants.SP_SEARCH_HISTORY, null);
         if (res == null) {
             res = enAddr;
         } else {
@@ -226,11 +227,11 @@ public class SearchActivity extends FragmentActivity implements TextWatcher, Vie
                 res = res + ";" + enAddr;
             }
         }
-        SpUtils.getInstance(mContext).putString(Constant.SpConstant.SEARCH_HISTORY, res);
+        SpUtils.getInstance(mContext).putString(GlobalConstants.SP_SEARCH_HISTORY, res);
     }
 
 
     private void cleanHistoryData() {
-        SpUtils.getInstance(mContext).putString(Constant.SpConstant.SEARCH_HISTORY, null);
+        SpUtils.getInstance(mContext).putString(GlobalConstants.SP_SEARCH_HISTORY, null);
     }
 }

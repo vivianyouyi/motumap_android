@@ -1,16 +1,19 @@
 package com.motu.motumap;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.View;
+
+import com.motu.motumap.Base.BaseActivity;
+import com.motu.motumap.common.GlobalConstants;
+import com.motu.motumap.login.PageGuideActivity;
+import com.motu.motumap.utils.SpUtils;
 
 /**
  * Created by vivian on 2017/7/4.
  */
 
-public class StartActivity extends Activity {
+public class StartActivity extends BaseActivity {
 
     private MyCountDownTimer myCountDownTimer;
 
@@ -19,13 +22,8 @@ public class StartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        if (isLogin()) {
-            setStartBackground();
-            backgroundsetOnClick();
-            myCountDownTimer = new MyCountDownTimer(6000, 50);
-        } else {
-            welcomeView.setVisibility(View.VISIBLE);
-        }
+
+        myCountDownTimer = new MyCountDownTimer(2000, 1000);
     }
 
     class MyCountDownTimer extends CountDownTimer {
@@ -40,7 +38,13 @@ public class StartActivity extends Activity {
 
         @Override
         public void onFinish() {
-
+            if (!isFirstTime()) {
+                SpUtils.getInstance(mContext).putBoolean(GlobalConstants.SP_IS_FIRSTTIME, true);
+                startActivity(new Intent(StartActivity.this, PageGuideActivity.class));
+            } else {
+                startActivity(new Intent(StartActivity.this, MainPageActivity.class));
+            }
+            finish();
         }
     }
 

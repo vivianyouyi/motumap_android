@@ -5,11 +5,5 @@ package com.motu.motumap.common;
  */
 
 public class Constant {
-    /**
-     * Created by lww on 9/7/15.
-     */
-    public static class SpConstant {
-        public static String SEARCH_HISTORY = "search_history";
-    }
 
 }
