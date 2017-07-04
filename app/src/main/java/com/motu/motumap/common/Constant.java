@@ -11,4 +11,5 @@ public class Constant {
     public static class SpConstant {
         public static String SEARCH_HISTORY = "search_history";
     }
+
 }

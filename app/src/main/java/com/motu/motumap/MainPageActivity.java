@@ -21,12 +21,6 @@ import com.motu.motumap.search.SearchActivity;
 import com.motu.motumap.view.ShadowProperty;
 import com.motu.motumap.view.ShadowViewDrawable;
 
-import java.io.IOException;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
 import static com.amap.map3d.demo.indoor.IndoorFloorSwitchView.dip2px;
 
 /**
@@ -57,16 +51,7 @@ public class MainPageActivity extends Activity implements AMap.OnMyLocationChang
         initData();
     }
     private void initData(){
-        OkHttpClient client = new OkHttpClient();
 
-        String run(String url) throws IOException {
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-
-            Response response = client.newCall(request).execute();
-            return response.body().string();
-        }
     }
 
     /**
